@@ -1,4 +1,5 @@
 import numpy
+from sklearn.preprocessing import normalize
 
 class Draft_Graph_Network:
     def __init__(self, hero_pool_size : int, learning_rate : float):
@@ -9,9 +10,11 @@ class Draft_Graph_Network:
 
     def train_single_example(self, picks : list, win : bool):
         nonzero = numpy.outer(picks, picks)
+        numpy.fill_diagonal(nonzero, val=0)
         if(not win):
             nonzero *= -1
         self.connections += self.learning_rate * nonzero
 
     def get_connections(self):
         return self.connections
+
